@@ -5,4 +5,14 @@
 <h1>Boon For People :)</h1>
 <p>Connecting.....Wait For the Master</p>
 
+{% if request.user.is_authenticated %}
+
+    <p>I M Login</p>
+
+{% else %}
+    <p>Info About Site</p>
+    <p>Login Please</p>
+
+{% endif %}
+
 {% endblock %}
