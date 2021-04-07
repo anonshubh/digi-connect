@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import GenreField,Request,SectorField
+from .forms import RequestForm
 
 User = get_user_model()
 
@@ -46,10 +47,17 @@ class DisplayRequest(LoginRequiredMixin,View):
 
 
 class CreateRequest(LoginRequiredMixin,View):
-
+    """
+    Returns the Create-Request Form and After Submission, Saves the Data in db
+    """
     def get(self,request,id,*args,**kwargs):
-        
-        return render(request,'connect/sector-create.html',)
+        sector = get_object_or_404(SectorField,pk=id) 
+        form = RequestForm(initial={'sector':sector})
+        data = {
+            'form':form,
+            'sector':sector,
+        }
+        return render(request,'connect/request-create.html',context=data)
     
     def post(self,request,*args,**kwargs):
         pass
