@@ -40,6 +40,7 @@ class Request(models.Model):
     subject = models.CharField(max_length=128)
     content = models.TextField()
     deadline = models.DateTimeField()
+    is_first_year_req = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
 

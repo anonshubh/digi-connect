@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>{{sector.name}}</h3>
+
+<div>
+    <a class="btn btn-primary" href="">Create Request +</a>
+</div>
+<hr>
+<div>
+    <p class="lead">Recent Requests</p>
+    {% for req in requests %}
+        <div class="card">
+            <div class="card-body">
+                <h6 class="card-subtitle mb-2 text-muted">Deadline: {{req.deadline | date:'d-m-Y H:i'}}</h6>
+                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>            
+            </div>
+        </div>
+    {% empty %}
+        <p>No Recent Requests :(</p>
+    {% endfor %}
+</div>
+
+
+{% endblock %}
