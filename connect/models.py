@@ -9,7 +9,7 @@ class GenreField(models.Model):
     """
     Different Genre For Each Sectors
     """
-    genre_type = models.CharField(max_length=56)
+    genre_type = models.CharField(max_length=56,unique=True)
 
 
     def __str__(self):
@@ -20,7 +20,8 @@ class SectorField(models.Model):
     """
     Relation For Each Sector, Example: Travel, Sports"
     """
-    name = models.CharField(max_length=56)
+    name = models.CharField(max_length=56,unique=True)
+    image = models.URLField()
     genre = models.ManyToManyField(GenreField,related_name='sec')
 
 
@@ -34,10 +35,12 @@ class Request(models.Model):
     Relation For Request Posted By User
     """
     requester = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,related_name='req')
-    deadline = models.DateTimeField()
+    sector = models.ForeignKey(SectorField,on_delete=models.CASCADE,related_name='reqsec')
+    genre = models.CharField(max_length=56,null=True,blank=True)
     subject = models.CharField(max_length=128)
     content = models.TextField()
-    sector = models.ForeignKey(SectorField,on_delete=models.CASCADE,related_name='reqsec')
+    deadline = models.DateTimeField()
+    created_at = models.DateTimeField(auto_now_add=True)
 
 
     def __str__(self):

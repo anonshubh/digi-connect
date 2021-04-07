@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% for sector in sectors %}
+    <p><a href="{% url 'connect:display-request' sector.id %}">{{sector.name}}</a></p>
+{% empty %}
+    <p class="lead">No Sectors Available :(</p>
+{% endfor %}
+
+{% endblock %}
