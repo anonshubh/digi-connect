@@ -2,10 +2,12 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseNotAllowed, JsonResponse
 
 from .models import GenreField,Request,SectorField
 from .forms import RequestForm
+import json
 
 User = get_user_model()
 
@@ -66,16 +68,21 @@ class CreateRequest(LoginRequiredMixin,View):
 
 
 # Returns the Genere List for Particular Sector
+@login_required
 def genre_list_api(request):
-    sector_id = request.POST.get('sector_id')
-    sector = get_object_or_404(SectorField,pk=sector_id)
+    if request.method == 'POST':
+        data_ =  json.loads(request.body)
+        sector_id = data_.get('sector_id')
 
-    data = {"sector-list":list()}
-    genre_list = sector.genre.all()
+        sector = get_object_or_404(SectorField,pk=sector_id)
 
-    for i in genre_list:
-        data['sector-list'].append(i.genre_type)
-    return JsonResponse(data=data)
+        data = {"sector-list":list()}
+        genre_list = sector.genre.all()
+
+        for i in genre_list:
+            data['sector-list'].append(i.genre_type)
+        return JsonResponse(data=data)
+    return HttpResponseNotAllowed('GET')
 
         
 

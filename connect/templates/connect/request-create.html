@@ -4,12 +4,13 @@
 
 
 {% block content %}
-<h2>Create New Request For {{sector.name}}</h2>
+<h2>Create New Request For <span id='sector-name-heading'>{{sector.name}}</span></h2>
 <hr>
 <div class="row">
     <div class="col-lg-7 col-md-10 col-sm-12">
         <form action="{% url 'connect:create-request' sector.id %}" method="post">
             {{form|crispy}}
+            <input type="hidden" id="sector_id_hidden" name="sector-id" value={{sector.id}}>
             <input class="btn btn-primary mt-2" type="submit" value="Let's Create :)">
         </form>
     </div>
