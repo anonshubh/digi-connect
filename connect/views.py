@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.views.generic import View
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import JsonResponse
 
 from .models import GenreField,Request,SectorField
 from .forms import RequestForm
@@ -60,7 +61,21 @@ class CreateRequest(LoginRequiredMixin,View):
         return render(request,'connect/request-create.html',context=data)
     
     def post(self,request,*args,**kwargs):
-        pass
+        print(request.POST)
+
+
+
+# Returns the Genere List for Particular Sector
+def genre_list_api(request):
+    sector_id = request.POST.get('sector_id')
+    sector = get_object_or_404(SectorField,pk=sector_id)
+
+    data = {"sector-list":list()}
+    genre_list = sector.genre.all()
+
+    for i in genre_list:
+        data['sector-list'].append(i.genre_type)
+    return JsonResponse(data=data)
 
         
 

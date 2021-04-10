@@ -9,5 +9,5 @@ class RequestForm(forms.ModelForm):
         exclude = ('requester','genre','is_first_year_req',)
         widgets = {
             'deadline': forms.DateTimeInput(attrs={'type':'datetime-local','class': 'form-control-sm'}),
-            'content':forms.Textarea(attrs={'cols': 40, 'rows': 5})
+            'content':forms.Textarea(attrs={'cols': 40, 'rows': 5}),
         }
