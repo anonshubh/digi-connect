@@ -1,9 +1,11 @@
 from django import forms
+from django.core.exceptions import ValidationError
 
 from .models import Request
 
+
 class RequestForm(forms.ModelForm):
-    genre = forms.ChoiceField()
+    genre_list = forms.ChoiceField()
     class Meta:
         model = Request
         exclude = ('requester','genre','is_first_year_req',)

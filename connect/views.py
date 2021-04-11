@@ -1,13 +1,16 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404,redirect
 from django.views.generic import View
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed, JsonResponse
+from django.core.exceptions import ValidationError
+from django.contrib import messages
 
 from .models import GenreField,Request,SectorField
 from .forms import RequestForm
-import json
+import json, datetime, pytz
+
 
 User = get_user_model()
 
@@ -62,9 +65,50 @@ class CreateRequest(LoginRequiredMixin,View):
         }
         return render(request,'connect/request-create.html',context=data)
     
-    def post(self,request,*args,**kwargs):
-        print(request.POST)
 
+    def post(self,request,id,*args,**kwargs):
+        sector_id = int(request.POST.get('sector-id'))
+        sector = get_object_or_404(SectorField,pk=sector_id)
+
+        form = RequestForm(request.POST)
+        if(form.is_valid()):
+            pass 
+
+        genre = request.POST.get('genre_list')
+        subject = form.cleaned_data['subject']
+        content = form.cleaned_data['content']
+        deadline = form.cleaned_data['deadline']
+        match_with_same_gender = request.POST.get("match_with_same_gender",None)
+
+        # Custom Form Verification
+        
+        live = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+
+        if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
+            messages.error(request,'Deadline Must Be Higher than Current Time!')
+            return redirect('connect:create-request',id=sector_id)
+    
+        is_first_year_req = False
+        if(request.user.info.year == 1):
+            is_first_year_req = True
+
+        if(match_with_same_gender is None):
+            match_with_same_gender = False
+        else:
+            match_with_same_gender = True
+
+        req_obj = Request.objects.create(
+            requester = request.user,
+            sector = sector,
+            genre = genre,
+            subject = subject,
+            content = content,
+            match_with_same_gender = match_with_same_gender,
+            deadline = deadline,
+            is_first_year_req = is_first_year_req
+        )
+        messages.success(request,"Your Request is Created Sucessfully!")
+        return redirect('connect:index')
 
 
 # Returns the Genere List for Particular Sector

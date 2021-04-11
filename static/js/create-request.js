@@ -35,20 +35,18 @@ function updateGenreList(id){
     .then(response => response.json())
     .then(data=>{
         let genreList = data["sector-list"];
-        let selGenre = document.querySelector("#id_genre");
+        let selGenre = document.querySelector("#id_genre_list");
         let optionList = selGenre.children;
         if(optionList.length != 0){
             while (selGenre.firstChild) {
                 selGenre.removeChild(selGenre.firstChild);
             }
         }
-        let count = 1;
         genreList.forEach(element => {
             let newOption = document.createElement('option');
-            newOption.value = count;
+            newOption.value = element;
             newOption.innerHTML = element;
             selGenre.appendChild(newOption);
-            count+=1;
         });
     });
 }
