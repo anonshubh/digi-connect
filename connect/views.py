@@ -41,9 +41,9 @@ class DisplayRequest(LoginRequiredMixin,View):
         sector = get_object_or_404(SectorField,pk=id)
 
         if request.user.info.year == 1:
-            requests = Request.objects.filter(sector=sector,is_first_year_req = True)
+            requests = Request.objects.filter(sector=sector,is_first_year_req = True,deleted=False,pending=True)
         else:
-            requests = Request.objects.filter(sector=sector)
+            requests = Request.objects.filter(sector=sector,deleted=False,pending=True)
 
         data = {
             'sector':sector,
@@ -127,6 +127,21 @@ def genre_list_api(request):
             data['sector-list'].append(i.genre_type)
         return JsonResponse(data=data)
     return HttpResponseNotAllowed('GET')
+
+
+# Deletes the Given Request
+@login_required
+def request_delete(request,id):
+    req_obj = get_object_or_404(Request,pk=id)
+    sector_id = req_obj.sector.id
+
+    if(request.user != req_obj.requester):
+        messages.error("Permission Denied!, You are Not Creater of Request.")
+    else:
+        req_obj.deleted = True
+        req_obj.save()
+
+    return redirect('connect:display-request',id=sector_id)
 
         
 

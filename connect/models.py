@@ -43,6 +43,8 @@ class Request(models.Model):
     deadline = models.DateTimeField()
     is_first_year_req = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    deleted = models.BooleanField(default=False)
+    pending = models.BooleanField(default=True)
 
 
     def __str__(self):

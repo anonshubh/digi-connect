@@ -14,7 +14,12 @@
         <div class="card">
             <div class="card-body">
                 <h6 class="card-subtitle mb-2 text-muted">Deadline: {{req.deadline | date:'d-m-Y H:i'}}</h6>
-                <p class="card-text">{{req.subject}}</p>           
+                <p class="card-text lead">{{req.subject}}</p>
+                {% if request.user == req.requester %}
+                    <button type="button" class="btn btn-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#deleteReqModal">Delete</button>
+                {% include 'connect/delete-modal_.html' %}
+                {% endif %}           
+                <a class="btn btn-primary btn-sm" href="">View Details</a>        
             </div>
         </div>
     {% empty %}
