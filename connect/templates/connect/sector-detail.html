@@ -19,7 +19,7 @@
                     <button type="button" class="btn btn-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#deleteReqModal">Delete</button>
                 {% include 'connect/delete-modal_.html' %}
                 {% endif %}           
-                <a class="btn btn-primary btn-sm" href="">View Details</a>        
+                <a class="btn btn-primary btn-sm" href="{% url 'connect:detail-request' req.id %}">View Details</a>        
             </div>
         </div>
     {% empty %}

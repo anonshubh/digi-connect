@@ -13,7 +13,7 @@ class GenreField(models.Model):
 
 
     def __str__(self):
-        return (f'{self.genre_type}')[:10]
+        return (f'{self.genre_type}')[:15]
 
 
 class SectorField(models.Model):
@@ -26,7 +26,7 @@ class SectorField(models.Model):
 
 
     def __str__(self):
-        return (f'{self.name}')[:10]
+        return (f'{self.name}')[:15]
 
 
 
@@ -46,8 +46,10 @@ class Request(models.Model):
     deleted = models.BooleanField(default=False)
     pending = models.BooleanField(default=True)
 
+    class Meta:
+        ordering = ['-created_at']
 
     def __str__(self):
-        subject = (self.subject)[:10]
+        subject = (self.subject)[:15]
         return f'By {self.requester}: {subject}'
 

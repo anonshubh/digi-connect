@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseNotAllowed, JsonResponse
-from django.core.exceptions import ValidationError
+from django.core.exceptions import ValidationError,PermissionDenied
 from django.contrib import messages
 
 from .models import GenreField,Request,SectorField
@@ -43,7 +43,7 @@ class DisplayRequest(LoginRequiredMixin,View):
         if request.user.info.year == 1:
             requests = Request.objects.filter(sector=sector,is_first_year_req = True,deleted=False,pending=True)
         else:
-            requests = Request.objects.filter(sector=sector,deleted=False,pending=True)
+            requests = Request.objects.filter(sector=sector,is_first_year_req = False,deleted=False,pending=True)
 
         data = {
             'sector':sector,
@@ -142,6 +142,28 @@ def request_delete(request,id):
         req_obj.save()
 
     return redirect('connect:display-request',id=sector_id)
+
+
+# Displays the Detailed View of Given Request
+@login_required
+def detailed_request_view(request,id):
+    req_obj = get_object_or_404(Request,pk=id)
+
+    if req_obj.deleted:
+        raise PermissionDenied()
+
+    if (request.user.info.year != 1):
+        if (req_obj.is_first_year_req):
+            raise PermissionDenied()
+
+    if (request.user.info.year == 1):
+        if not (req_obj.is_first_year_req):
+            raise PermissionDenied()
+
+    context = {
+        'req_object':req_obj
+    }
+    return render(request,'connect/request-detail.html',context=context)
 
         
 

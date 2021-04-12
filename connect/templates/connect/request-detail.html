@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="text-center">View Request</h3>
+<hr>
+<div class="row">
+    <div class="col-12">
+        <div class="card" style="width: 65rem;">
+            <div class="card-body">
+              <h5 class="card-title">{{req_object.subject}}</h5>
+              <h6 class="card-subtitle mb-2 text-muted">Deadline: {{req_object.deadline | date:'d-m-Y H:i'}}</h6>
+              <p class="card-text">{{req_object.content}}</p>
+              <a href="#" class="btn btn-success btn-sm">Request :)</a>
+              <a href="#" class="card-link">Another link</a>
+            </div>
+          </div>                 
+    </div>
+</div>
+
+{% endblock %}
