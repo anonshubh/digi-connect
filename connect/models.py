@@ -53,3 +53,18 @@ class Request(models.Model):
         subject = (self.subject)[:15]
         return f'By {self.requester}: {subject}'
 
+
+
+class InitialMatchingRequest(models.Model):
+    """
+    Relation to Store Match after initial "Request" Send by User
+    """
+    request = models.ForeignKey(Request,on_delete=models.CASCADE,related_name='initialmatch')
+    req_users = models.ManyToManyField(User)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-updated']
+
+    def __str__(self):
+        return f'Initial Match of {self.request}'

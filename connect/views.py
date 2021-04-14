@@ -7,7 +7,7 @@ from django.http import HttpResponseNotAllowed, JsonResponse
 from django.core.exceptions import ValidationError,PermissionDenied
 from django.contrib import messages
 
-from .models import GenreField,Request,SectorField
+from .models import GenreField,Request,SectorField,InitialMatchingRequest
 from .forms import RequestForm
 import json, datetime, pytz
 
@@ -176,9 +176,54 @@ def detailed_request_view(request,id):
     if(req_obj.match_with_same_gender):
         if(request.user.info.gender != req_obj.requester.info.gender):
             raise PermissionDenied()
+    
+    already_sent = False
+    initial_req_obj,created = InitialMatchingRequest.objects.get_or_create(request=req_obj)
+    req_users = initial_req_obj.req_users.all()
+
+    if(request.user in req_users):
+        already_sent = True
 
     context = {
-        'req_object':req_obj
+        'req_object':req_obj,
+        'already_sent':already_sent
     }
     return render(request,'connect/request-detail.html',context=context)
+
+
+# Adds New Requester to the Particular Request
+@login_required
+def add_or_remove_sender_view(request,id):
+    req_obj = get_object_or_404(Request,pk=id)
+
+    if req_obj.deleted:
+        raise PermissionDenied()
     
+    if (request.user == req_obj.requester):
+        raise PermissionDenied()
+
+    if (request.user.info.year != 1):
+        if (req_obj.is_first_year_req):
+            raise PermissionDenied()
+
+    if (request.user.info.year == 1):
+        if not (req_obj.is_first_year_req):
+            raise PermissionDenied()
+    
+    if(req_obj.match_with_same_gender):
+        if(request.user.info.gender != req_obj.requester.info.gender):
+            raise PermissionDenied()
+    
+    initial_req_obj,created = InitialMatchingRequest.objects.get_or_create(request=req_obj)
+    req_users = initial_req_obj.req_users.all()
+
+    if(request.user in req_users):
+        initial_req_obj.req_users.remove(request.user)
+        messages.info(request,"Request Cancelled!")
+    else:
+        initial_req_obj.req_users.add(request.user)
+        messages.success(request,"Request Sent Sucessfully!")
+    
+    return redirect('connect:detail-request',id=req_obj.id)
+    
+

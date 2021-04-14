@@ -12,6 +12,7 @@ urlpatterns = [
     path('create-request/<int:id>/',views.CreateRequest.as_view(),name='create-request'),
     path('delete-request/<int:id>/',views.request_delete,name='delete-request'),
     path('detail-request/<int:id>/',views.detailed_request_view,name='detail-request'),
+    path('addremove-sender/<int:id>/',views.add_or_remove_sender_view,name='addremove-sender'),
 
     # API Endpoints
     path('api/list-genre/',views.genre_list_api,name='api-list-genre'),

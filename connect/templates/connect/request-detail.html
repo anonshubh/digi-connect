@@ -11,7 +11,11 @@
                 <h6 class="card-subtitle mb-2 text-muted">Deadline: {{req_object.deadline | date:'d-m-Y H:i'}}</h6>
                 <p class="card-text">{{req_object.content}}</p>
                 {% if request.user != req_object.requester %}
-                    <a href="#" class="btn btn-success btn-sm">Request :)</a>
+                    {% if already_sent %}
+                        <a href="{% url 'connect:addremove-sender' req_object.id %}" class="btn btn-warning btn-sm">Cancel!</a>
+                    {% else %}
+                        <a href="{% url 'connect:addremove-sender' req_object.id %}" class="btn btn-success btn-sm">Request :)</a>
+                    {% endif %}
                 {% endif %}
                 {% if request.user == req_object.requester %}
                     <a href="#" class="card-link">Received Requests</a>
