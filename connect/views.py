@@ -41,13 +41,21 @@ class DisplayRequest(LoginRequiredMixin,View):
         sector = get_object_or_404(SectorField,pk=id)
 
         if request.user.info.year == 1:
-            requests = Request.objects.filter(sector=sector,is_first_year_req = True,deleted=False,pending=True)
+            requests_ = Request.objects.filter(sector=sector,is_first_year_req = True,deleted=False,pending=True)
         else:
-            requests = Request.objects.filter(sector=sector,is_first_year_req = False,deleted=False,pending=True)
+            requests_ = Request.objects.filter(sector=sector,is_first_year_req = False,deleted=False,pending=True)
+        
+        final_requests =  []
+        for i in requests_:
+            if(i.match_with_same_gender):
+                if(request.user.info.gender == i.requester.info.gender):
+                    final_requests.append(i)
+            else:
+                final_requests.append(i)
 
         data = {
             'sector':sector,
-            'requests':requests,
+            'requests':final_requests,
         }
         return render(request,'connect/sector-detail.html',context=data)
 
@@ -158,6 +166,10 @@ def detailed_request_view(request,id):
 
     if (request.user.info.year == 1):
         if not (req_obj.is_first_year_req):
+            raise PermissionDenied()
+    
+    if(req_obj.match_with_same_gender):
+        if(request.user.info.gender != req_obj.requester.info.gender):
             raise PermissionDenied()
 
     context = {
