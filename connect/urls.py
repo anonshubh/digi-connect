@@ -13,6 +13,7 @@ urlpatterns = [
     path('delete-request/<int:id>/',views.request_delete,name='delete-request'),
     path('detail-request/<int:id>/',views.detailed_request_view,name='detail-request'),
     path('addremove-sender/<int:id>/',views.add_or_remove_sender_view,name='addremove-sender'),
+    path('list-senders/<int:id>',views.list_senders_in_request_view,name='list-senders'),
 
     # API Endpoints
     path('api/list-genre/',views.genre_list_api,name='api-list-genre'),

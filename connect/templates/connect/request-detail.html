@@ -18,7 +18,7 @@
                     {% endif %}
                 {% endif %}
                 {% if request.user == req_object.requester %}
-                    <a href="#" class="card-link">Received Requests</a>
+                    <a href="{% url 'connect:list-senders' req_object.id %}" class="card-link">Received Requests</a>
                 {% endif %}
             </div>
         </div>

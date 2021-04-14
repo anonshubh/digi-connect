@@ -195,6 +195,7 @@ def detailed_request_view(request,id):
 @login_required
 def add_or_remove_sender_view(request,id):
     req_obj = get_object_or_404(Request,pk=id)
+    deadline = req_obj.deadline
 
     if req_obj.deleted:
         raise PermissionDenied()
@@ -213,6 +214,14 @@ def add_or_remove_sender_view(request,id):
     if(req_obj.match_with_same_gender):
         if(request.user.info.gender != req_obj.requester.info.gender):
             raise PermissionDenied()
+
+    live = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+
+    if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
+        messages.error(request,'Deadline Exceeded!')
+        req_obj.deleted = True
+        req_obj.save()
+    return redirect('connect:detail-request',id=req_obj.id)
     
     initial_req_obj,created = InitialMatchingRequest.objects.get_or_create(request=req_obj)
     req_users = initial_req_obj.req_users.all()
@@ -227,3 +236,45 @@ def add_or_remove_sender_view(request,id):
     return redirect('connect:detail-request',id=req_obj.id)
     
 
+# Displays the List of Users Sent the Request for Particular Request
+@login_required
+def list_senders_in_request_view(request,id):
+    req_obj = get_object_or_404(Request,pk=id)
+
+    deadline = req_obj.deadline
+
+    if req_obj.deleted:
+        raise PermissionDenied()
+    
+    if (request.user.info.year != 1):
+        if (req_obj.is_first_year_req):
+            raise PermissionDenied()
+
+    if (request.user.info.year == 1):
+        if not (req_obj.is_first_year_req):
+            raise PermissionDenied()
+    
+    if(req_obj.match_with_same_gender):
+        if(request.user.info.gender != req_obj.requester.info.gender):
+            raise PermissionDenied()
+
+    live = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+
+    if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
+        messages.error(request,'Deadline Exceeded!')
+        req_obj.deleted = True
+        req_obj.save()
+        return redirect('connect:detail-request',id=req_obj.id)
+    
+    initial_req_obj,created = InitialMatchingRequest.objects.get_or_create(request=req_obj)
+    req_users = initial_req_obj.req_users.all()
+
+    already_accepted_back = False
+
+    context = {
+        'req_obj':req_obj,
+        'req_users':req_users,
+        'already_accepted_back':already_accepted_back
+    }
+
+    return render(request,'connect/requesting-list.html',context=context)
