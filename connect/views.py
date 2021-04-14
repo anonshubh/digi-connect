@@ -37,9 +37,9 @@ class DisplayRequest(LoginRequiredMixin,View):
     """
     Displays the Create Request Button with Recent Requests in Particular Sector
     """
-    def get(self,request,id,*args,**kwargs):
+    def get(self,request,id,type_,*args,**kwargs):
         sector = get_object_or_404(SectorField,pk=id)
-
+        
         if request.user.info.year == 1:
             requests_ = Request.objects.filter(sector=sector,is_first_year_req = True,deleted=False,pending=True)
         else:
@@ -50,12 +50,17 @@ class DisplayRequest(LoginRequiredMixin,View):
             if(i.match_with_same_gender):
                 if(request.user.info.gender == i.requester.info.gender):
                     final_requests.append(i)
+            elif(type_ == 1):
+                if(request.user.info.gender == i.requester.info.gender):
+                    final_requests.append(i)
             else:
                 final_requests.append(i)
+
 
         data = {
             'sector':sector,
             'requests':final_requests,
+            'type_':type_,
         }
         return render(request,'connect/sector-detail.html',context=data)
 
@@ -149,7 +154,7 @@ def request_delete(request,id):
         req_obj.deleted = True
         req_obj.save()
 
-    return redirect('connect:display-request',id=sector_id)
+    return redirect('connect:display-request',id=sector_id,type_=0)
 
 
 # Displays the Detailed View of Given Request
@@ -176,6 +181,4 @@ def detailed_request_view(request,id):
         'req_object':req_obj
     }
     return render(request,'connect/request-detail.html',context=context)
-
-        
-
+    

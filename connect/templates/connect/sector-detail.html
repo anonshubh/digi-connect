@@ -4,8 +4,17 @@
 
 <h3>{{sector.name}}</h3>
 
-<div>
-    <a class="btn btn-primary" href="{% url 'connect:create-request' sector.id %}">Create Request +</a>
+<div class="row">
+    <div class="col-lg-10 col-sm-12">
+        <a class="btn btn-primary" href="{% url 'connect:create-request' sector.id %}">Create Request +</a>
+    </div>
+    <div class="col-lg-2 col-sm-12 mt-2">
+        {% if type_ == 0 %}
+            <a class="btn btn-secondary btn-sm" href="{% url 'connect:display-request' sector.id 1 %}">Show Results with "Same Gender"</a>
+        {% else %}
+            <a class="btn btn-secondary btn-sm" href="{% url 'connect:display-request' sector.id 0 %}">Show Original Results</a>
+        {% endif %}
+    </div>
 </div>
 <hr>
 <div>
