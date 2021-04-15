@@ -21,6 +21,7 @@ urlpatterns = [
     path('deny-request/<int:id>/<str:username>/',views.deny_request_view,name='deny-request'),
     path('pending/',views.pending_list_view,name='pending'),
     path('accepted/',views.accepted_list_view,name='accepted'),
+    path('completed/',views.completed_list_view,name='completed'),
 
     # API Endpoints
     path('api/list-genre/',views.genre_list_api,name='api-list-genre'),

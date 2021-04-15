@@ -327,7 +327,7 @@ def final_accept_view(request,id,username):
 
     if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
         messages.error(request,'Deadline Exceeded!')
-        req_obj.deleted = True
+        req_obj.pending = False
         req_obj.save()
         return redirect('connect:detail-request',id=req_obj.id)
 
@@ -495,6 +495,19 @@ def accepted_list_view(request):
     context = {
         'object_list':accepted,
         'status':'Accepted',
+    }
+
+    return render(request,'connect/request-status.html',context=context)
+
+
+# Lists the Completed Requests 
+@login_required
+def completed_list_view(request):
+    req_obj = Request.objects.filter(requester=request.user,deleted=False,pending=False)
+
+    context = {
+        'object_list':req_obj,
+        'status':'Completed',
     }
 
     return render(request,'connect/request-status.html',context=context)
