@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h3 class="text-center">{{status}} Requests</h3>
+<hr>
+<div class="row">
+    {% for req_object in object_list %}
+    <div class="col-12 my-2">
+        <div class="card" style="width: 65rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{req_object.subject}}</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Deadline: {{req_object.deadline | date:'d-m-Y H:i'}}</h6>
+                <p class="card-text">{{req_object.content}}</p>
+                <a class="btn btn-primary btn-sm" href="{% url 'connect:detail-request' req_object.id %}">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p class="lead">No {{status}} Requests</p>
+    {% endfor %}
+</div>
+
+{% endblock %}

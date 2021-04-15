@@ -227,7 +227,7 @@ def add_or_remove_sender_view(request,id):
 
     if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
         messages.error(request,'Deadline Exceeded!')
-        req_obj.deleted = True
+        req_obj.pending = False
         req_obj.save()
         return redirect('connect:detail-request',id=req_obj.id)
     
@@ -273,7 +273,7 @@ def list_senders_in_request_view(request,id):
 
     if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
         messages.error(request,'Deadline Exceeded!')
-        req_obj.deleted = True
+        req_obj.pending = False
         req_obj.save()
         return redirect('connect:detail-request',id=req_obj.id)
     
@@ -447,3 +447,34 @@ def deny_request_view(request,id,username):
     initial_req_obj.req_users.remove(user_obj)
 
     return redirect('connect:list-senders',id=req_obj.id)
+
+
+# Lists the Pending Requests 
+@login_required
+def pending_list_view(request):
+    initial_obj = request.user.initialmatchuser.all()
+    final_obj  = request.user.finalmatchuser.all()
+
+    pending = []
+
+    inital_req = []
+    final_req = []
+
+    for i in initial_obj:
+        inital_req.append(i.request)
+
+    for i in final_obj:
+        final_req.append(i.request)
+
+    for i in inital_req:
+        if not (i in final_req):
+            if not (i.deleted):
+                if i.pending:
+                    pending.append(i)
+
+    context = {
+        'object_list':pending,
+        'status':'Pending',
+    }
+    
+    return render(request,'connect/request-status.html',context=context)

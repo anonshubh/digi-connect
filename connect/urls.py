@@ -19,6 +19,7 @@ urlpatterns = [
     path('view-contact-sender/<int:id>/',views.view_contact_after_match_sender,name='view-contact-sender'),
     path('view-contact-receiver/<int:id>/<str:username>/',views.view_contact_after_match_receiver,name='view-contact-receiver'),
     path('deny-request/<int:id>/<str:username>/',views.deny_request_view,name='deny-request'),
+    path('pending/',views.pending_list_view,name='pending'),
 
     # API Endpoints
     path('api/list-genre/',views.genre_list_api,name='api-list-genre'),

@@ -60,7 +60,7 @@ class InitialMatchingRequest(models.Model):
     Relation to Store Match after initial "Request" Send by User
     """
     request = models.ForeignKey(Request,on_delete=models.CASCADE,related_name='initialmatch')
-    req_users = models.ManyToManyField(User)
+    req_users = models.ManyToManyField(User,related_name='initialmatchuser')
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
@@ -75,7 +75,7 @@ class FinalMatchingRequest(models.Model):
     Relation to Store Match after Final "Accept Back"
     """
     request = models.ForeignKey(Request,on_delete=models.CASCADE,related_name='finalmatch')
-    final_req_users = models.ManyToManyField(User)
+    final_req_users = models.ManyToManyField(User,related_name='finalmatchuser')
     updated = models.DateTimeField(auto_now=True)
 
     class Meta:
