@@ -348,3 +348,74 @@ def final_accept_or_deny_view(request,id,username):
         messages.success(request,"Request Accepted Back, Now Details of Requester is Visible to You!")
     
     return redirect('connect:list-senders',id=req_obj.id)
+
+
+# Displays the Contact After Match - Sender
+@login_required
+def view_contact_after_match_sender(request,id):
+    req_obj = get_object_or_404(Request,pk=id)
+
+    if req_obj.deleted:
+        raise PermissionDenied()
+
+    if (request.user.info.year != 1):
+        if (req_obj.is_first_year_req):
+            raise PermissionDenied()
+
+    if (request.user.info.year == 1):
+        if not (req_obj.is_first_year_req):
+            raise PermissionDenied()
+    
+    if(req_obj.match_with_same_gender):
+        if(request.user.info.gender != req_obj.requester.info.gender):
+            raise PermissionDenied()
+    
+    final_req_obj,created1 = FinalMatchingRequest.objects.get_or_create(request=req_obj)
+    final_req_users = final_req_obj.final_req_users.all()
+
+    if not (request.user in final_req_users):
+        messages.error(request,"You have Not Matched!")
+        raise PermissionDenied()
+    
+    context = {
+        'requester':req_obj.requester,
+        'requesting':request.user
+    }
+
+    return render(request,'connect/contact-sharing.html',context=context)
+
+
+# Displays the Contact After Match - Receiver
+@login_required
+def view_contact_after_match_receiver(request,id,username):
+    req_obj = get_object_or_404(Request,pk=id)
+    user_obj = get_object_or_404(User,username=username)
+
+    if req_obj.deleted:
+        raise PermissionDenied()
+
+    if (request.user.info.year != 1):
+        if (req_obj.is_first_year_req):
+            raise PermissionDenied()
+
+    if (request.user.info.year == 1):
+        if not (req_obj.is_first_year_req):
+            raise PermissionDenied()
+    
+    if(req_obj.match_with_same_gender):
+        if(request.user.info.gender != req_obj.requester.info.gender):
+            raise PermissionDenied()
+    
+    final_req_obj,created1 = FinalMatchingRequest.objects.get_or_create(request=req_obj)
+    final_req_users = final_req_obj.final_req_users.all()
+
+    if not (user_obj in final_req_users):
+        messages.error(request,"You have Not Matched!")
+        raise PermissionDenied()
+    
+    context = {
+        'requester':user_obj,
+        'requesting':request.user
+    }
+
+    return render(request,'connect/contact-sharing.html',context=context)

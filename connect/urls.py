@@ -16,6 +16,8 @@ urlpatterns = [
     path('addremove-sender/<int:id>/',views.add_or_remove_sender_view,name='addremove-sender'),
     path('list-senders/<int:id>',views.list_senders_in_request_view,name='list-senders'),
     path('final-add-remove/<int:id>/<str:username>/',views.final_accept_or_deny_view,name = 'final-addremove'),
+    path('view-contact-sender/<int:id>/',views.view_contact_after_match_sender,name='view-contact-sender'),
+    path('view-contact-receiver/<int:id>/<str:username>/',views.view_contact_after_match_receiver,name='view-contact-receiver'),
 
     # API Endpoints
     path('api/list-genre/',views.genre_list_api,name='api-list-genre'),

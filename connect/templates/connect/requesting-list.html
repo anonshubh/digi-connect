@@ -16,7 +16,7 @@
                 </div>
                 {% if accepted_back|get_item:user %}
                     <div class="col-lg-2 col-sm-12">
-                        <a class="btn btn-primary btn-sm ms-2 my-2" href="">User Details</a>
+                        <a class="btn btn-primary btn-sm ms-2 my-2" href="{% url 'connect:view-contact-receiver' req_obj.id user.username %}">User Details</a>
                     </div>
                 {% else %}
                     <div class="col-lg-2 col-sm-12">
