@@ -21,7 +21,7 @@
                 {% else %}
                     <div class="col-lg-2 col-sm-12">
                         <a class="btn btn-success btn-sm ms-2 my-2" href="{% url 'connect:final-addremove' req_obj.id user.username %}">Accept Back :)</a>
-                        <a class="btn btn-danger btn-sm ms-2 my-2" href="">Deny :(</a>
+                        <a class="btn btn-danger btn-sm ms-2 my-2" href="{% url 'connect:deny-request' req_obj.id user.username %}">Deny :(</a>
                     </div>
                 {% endif %}
             </div>

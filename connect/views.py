@@ -302,7 +302,7 @@ def list_senders_in_request_view(request,id):
 
 # Final Accept or Deny of Sender's Request
 @login_required
-def final_accept_or_deny_view(request,id,username):
+def final_accept_view(request,id,username):
     user_obj = get_object_or_404(User,username=username)
 
     req_obj = get_object_or_404(Request,pk=id)
@@ -419,3 +419,31 @@ def view_contact_after_match_receiver(request,id,username):
     }
 
     return render(request,'connect/contact-sharing.html',context=context)
+
+
+# Denies the Request of Sender
+@login_required
+def deny_request_view(request,id,username):
+    req_obj = get_object_or_404(Request,pk=id)
+    user_obj = get_object_or_404(User,username=username)
+
+    if req_obj.deleted:
+        raise PermissionDenied()
+
+    if (request.user.info.year != 1):
+        if (req_obj.is_first_year_req):
+            raise PermissionDenied()
+
+    if (request.user.info.year == 1):
+        if not (req_obj.is_first_year_req):
+            raise PermissionDenied()
+    
+    if(req_obj.match_with_same_gender):
+        if(request.user.info.gender != req_obj.requester.info.gender):
+            raise PermissionDenied()
+    
+
+    initial_req_obj,created = InitialMatchingRequest.objects.get_or_create(request=req_obj)
+    initial_req_obj.req_users.remove(user_obj)
+
+    return redirect('connect:list-senders',id=req_obj.id)
