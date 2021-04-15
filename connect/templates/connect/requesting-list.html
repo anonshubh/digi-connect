@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load custom_filters %}
 
 {% block content %}
 <h2>List of People Sent Request</h2>
@@ -13,13 +14,13 @@
                         <p>Handle: {{user.username}}</p> 
                     </div>
                 </div>
-                {% if already_accepted_back %}
+                {% if accepted_back|get_item:user %}
                     <div class="col-lg-2 col-sm-12">
-                        <a class="btn btn-primary btn-sm ms-2 my-2" href="">View Details</a>
+                        <a class="btn btn-primary btn-sm ms-2 my-2" href="">User Details</a>
                     </div>
                 {% else %}
                     <div class="col-lg-2 col-sm-12">
-                        <a class="btn btn-success btn-sm ms-2 my-2" href="">Accept Back :)</a>
+                        <a class="btn btn-success btn-sm ms-2 my-2" href="{% url 'connect:final-addremove' req_obj.id user.username %}">Accept Back :)</a>
                         <a class="btn btn-danger btn-sm ms-2 my-2" href="">Deny :(</a>
                     </div>
                 {% endif %}

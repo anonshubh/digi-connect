@@ -68,3 +68,18 @@ class InitialMatchingRequest(models.Model):
 
     def __str__(self):
         return f'Initial Match of {self.request}'
+
+
+class FinalMatchingRequest(models.Model):
+    """
+    Relation to Store Match after Final "Accept Back"
+    """
+    request = models.ForeignKey(Request,on_delete=models.CASCADE,related_name='finalmatch')
+    final_req_users = models.ManyToManyField(User)
+    updated = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-updated']
+
+    def __str__(self):
+        return f'Final Match of {self.request}'

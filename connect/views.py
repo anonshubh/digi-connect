@@ -7,7 +7,7 @@ from django.http import HttpResponseNotAllowed, JsonResponse
 from django.core.exceptions import ValidationError,PermissionDenied
 from django.contrib import messages
 
-from .models import GenreField,Request,SectorField,InitialMatchingRequest
+from .models import GenreField,Request,SectorField,InitialMatchingRequest,FinalMatchingRequest
 from .forms import RequestForm
 import json, datetime, pytz
 
@@ -181,12 +181,20 @@ def detailed_request_view(request,id):
     initial_req_obj,created = InitialMatchingRequest.objects.get_or_create(request=req_obj)
     req_users = initial_req_obj.req_users.all()
 
+    final_accepted = False
+    final_req_obj,created1 = FinalMatchingRequest.objects.get_or_create(request=req_obj)
+    final_req_users = final_req_obj.final_req_users.all()
+
     if(request.user in req_users):
         already_sent = True
+    
+    if(request.user in final_req_users):
+        final_accepted = True
 
     context = {
         'req_object':req_obj,
-        'already_sent':already_sent
+        'already_sent':already_sent,
+        'final_accepted':final_accepted
     }
     return render(request,'connect/request-detail.html',context=context)
 
@@ -221,7 +229,7 @@ def add_or_remove_sender_view(request,id):
         messages.error(request,'Deadline Exceeded!')
         req_obj.deleted = True
         req_obj.save()
-    return redirect('connect:detail-request',id=req_obj.id)
+        return redirect('connect:detail-request',id=req_obj.id)
     
     initial_req_obj,created = InitialMatchingRequest.objects.get_or_create(request=req_obj)
     req_users = initial_req_obj.req_users.all()
@@ -249,6 +257,9 @@ def list_senders_in_request_view(request,id):
     if (request.user.info.year != 1):
         if (req_obj.is_first_year_req):
             raise PermissionDenied()
+    
+    if (request.user != req_obj.requester):
+        raise PermissionDenied()
 
     if (request.user.info.year == 1):
         if not (req_obj.is_first_year_req):
@@ -269,12 +280,71 @@ def list_senders_in_request_view(request,id):
     initial_req_obj,created = InitialMatchingRequest.objects.get_or_create(request=req_obj)
     req_users = initial_req_obj.req_users.all()
 
-    already_accepted_back = False
+    final_req_obj,created1 = FinalMatchingRequest.objects.get_or_create(request=req_obj)
+    final_req_users = final_req_obj.final_req_users.all()
+
+    accepted_back = {}
+
+    for i in req_users:
+        if(i in final_req_users):
+            accepted_back[i] = 1
+        else:
+            accepted_back[i] = 0
 
     context = {
         'req_obj':req_obj,
         'req_users':req_users,
-        'already_accepted_back':already_accepted_back
+        'accepted_back':accepted_back
     }
 
     return render(request,'connect/requesting-list.html',context=context)
+
+
+# Final Accept or Deny of Sender's Request
+@login_required
+def final_accept_or_deny_view(request,id,username):
+    user_obj = get_object_or_404(User,username=username)
+
+    req_obj = get_object_or_404(Request,pk=id)
+    deadline = req_obj.deadline
+
+    if req_obj.deleted:
+        raise PermissionDenied()
+
+    if (request.user.info.year != 1):
+        if (req_obj.is_first_year_req):
+            raise PermissionDenied()
+
+    if (request.user.info.year == 1):
+        if not (req_obj.is_first_year_req):
+            raise PermissionDenied()
+    
+    if(req_obj.match_with_same_gender):
+        if(request.user.info.gender != req_obj.requester.info.gender):
+            raise PermissionDenied()
+    
+    live = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+
+    if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
+        messages.error(request,'Deadline Exceeded!')
+        req_obj.deleted = True
+        req_obj.save()
+        return redirect('connect:detail-request',id=req_obj.id)
+
+    initial_req_obj,created = InitialMatchingRequest.objects.get_or_create(request=req_obj)
+    req_users = initial_req_obj.req_users.all()
+    if not (user_obj in req_users):
+        messages.error(request,"Initial User Not Matched!")
+        raise PermissionDenied()
+    
+    final_req_obj,created1 = FinalMatchingRequest.objects.get_or_create(request=req_obj)
+    final_req_users = final_req_obj.final_req_users.all()
+
+    if(user_obj in final_req_users):
+        final_req_obj.final_req_users.remove(user_obj)
+        messages.info(request,"Request Removed!")
+    else:
+        final_req_obj.final_req_users.add(user_obj)
+        messages.success(request,"Request Accepted Back, Now Details of Requester is Visible to You!")
+    
+    return redirect('connect:list-senders',id=req_obj.id)
