@@ -478,3 +478,23 @@ def pending_list_view(request):
     }
     
     return render(request,'connect/request-status.html',context=context)
+
+
+# Lists the Accepted Requests 
+@login_required
+def accepted_list_view(request):
+    final_obj  = request.user.finalmatchuser.all()
+
+    accepted = []
+
+    for i in final_obj:
+        if not (i.request.deleted):
+            if i.request.pending:
+                accepted.append(i.request)
+
+    context = {
+        'object_list':accepted,
+        'status':'Accepted',
+    }
+
+    return render(request,'connect/request-status.html',context=context)
