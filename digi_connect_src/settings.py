@@ -73,6 +73,9 @@ ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_SESSION_REMEMBER = True
 
 
+ADMINS = [('TheDigiConnect', 'thesynergee@gmail.com')]
+
+
 ACCOUNT_FORMS = {'signup': 'profiles.forms.CustomSignupForm','login': 'profiles.forms.CustomLoginForm'}
 
 LOGIN_REDIRECT_URL = "/"
