@@ -81,8 +81,8 @@ LOGOUT_REDIRECT_URL = "/"
 ACCOUNT_ADAPTER = 'profiles.forms.RestrictEmailAdapter'
 
 
-if DEBUG:
-    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# if DEBUG:
+#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
