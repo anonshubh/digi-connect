@@ -83,8 +83,8 @@ ACCOUNT_ADAPTER = 'profiles.forms.RestrictEmailAdapter'
 DEFAULT_FROM_EMAIL = 'TheDigiConnect <thesynergee@gmail.com>'
 
 
-# if DEBUG:
-#     EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+if DEBUG:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
