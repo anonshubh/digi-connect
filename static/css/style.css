@@ -1,0 +1,113 @@
+*{
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+    box-sizing: border-box;
+    color: whitesmoke;
+}
+
+option{
+    color: black;
+}
+
+body{
+    background-image: url('https://ik.imagekit.io/oyjag5asj/image_3mP0GSYNY.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+} 
+
+.navbar{
+    background-color: antiquewhite;
+    opacity: 0.6;
+}
+
+.nav-dropmenu{
+    background-color: rgb(190, 168, 168);
+}
+
+.a-white{
+    color: whitesmoke;
+}
+
+
+a{
+    color: red;
+}
+
+red-link{
+    color: red;
+}
+
+
+
+.glass-container{
+    background: rgba(255, 255, 255, 0.657);
+    box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+    border-radius: 10px;
+    border: 1px solid rgba( 255, 255, 255, 0.18 );
+}
+
+
+.card-greycolor{
+    color: rgb(87, 83, 83);
+}
+
+.card-blackcolor{
+    color: black;
+}
+
+
+.deadline-space{
+    text-align: end;
+}
+
+@media screen and (max-width: 576px) {
+    .deadline-space{
+        text-align: center;
+    }
+}
+
+
+
+.footer-line-1{
+    font-size: medium;
+    font-weight: bold;
+}
+
+.footer-line-2{
+    font-size: medium;
+}
+
+.github-link,.linkedin-link,.instagram-link{
+    color: black;
+}
+
+.github-link:hover{
+    color: aliceblue;
+}
+
+.instagram-link:hover{
+    color: #eee234d7;
+}
+
+@media (min-width:992px){
+    #top-sectors{
+        height: 100vh;
+    }
+    
+    #intro{
+        height: 100vh;
+    }
+
+    .footer-line-2{
+        font-size: medium;
+        display: inline-block;
+    }
+}
+
+
+.alert-blur{
+    opacity: 0.8;
+}

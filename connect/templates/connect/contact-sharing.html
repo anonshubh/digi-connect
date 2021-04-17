@@ -1,32 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h3>Contact Share After Match :)</h3>
+<h3 class="text-center mt-2">Contact Share After Match :)</h3>
 <hr>
 <div class="row">
     <div class="col-lg-6 col-sm-12 my-2">
-        <div class="card">
+        <div class="card glass-container">
             <div class="card-body">
-             <p class="lead">Your Details:</p> 
-             <p>Name: {{requesting.first_name}} {{requesting.last_name}}</p>
-             <p>Handle: {{requesting.username}}</p>
-             <p>Email: {{requesting.email}}</p>
-             <p>Phone: {{requesting.info.phone}}</p>
-             <p>Department: {{requesting.info.department}}</p>
-             <p>Year: {{requesting.info.year}}</p>
+             <p class="lead text-center fw-bolder card-blackcolor">Your Details:</p> 
+             <p class="card-blackcolor">Name: {{requesting.first_name}} {{requesting.last_name}}</p>
+             <p class="card-blackcolor">Handle: {{requesting.username}}</p>
+             <p class="card-blackcolor">Email: {{requesting.email}}</p>
+             <p class="card-blackcolor">Phone: {{requesting.info.phone}}</p>
+             <p class="card-blackcolor">Department: {{requesting.info.department}}</p>
+             <p class="card-blackcolor">Year: {{requesting.info.year}}</p>
             </div>
           </div>
     </div>
     <div class="col-lg-6 col-sm-12 my-2">
-        <div class="card">
+        <div class="card glass-container">
             <div class="card-body">
-            <p class="lead" >Associate Details:</p> 
-            <p>Name: {{requester.first_name}} {{requester.last_name}}</p>
-            <p>Handle: {{requester.username}}</p>
-            <p>Email: {{requester.email}}</p>
-            <p>Phone: {{requester.info.phone}}</p>
-            <p>Department: {{requester.info.department}}</p>
-            <p>Year: {{requester.info.year}}</p>
+            <p class="lead text-center fw-bolder card-blackcolor">Associate Details:</p> 
+            <p class="card-blackcolor">Name: {{requester.first_name}} {{requester.last_name}}</p>
+            <p class="card-blackcolor">Handle: {{requester.username}}</p>
+            <p class="card-blackcolor">Email: {{requester.email}}</p>
+            <p class="card-blackcolor">Phone: {{requester.info.phone}}</p>
+            <p class="card-blackcolor">Department: {{requester.info.department}}</p>
+            <p class="card-blackcolor">Year: {{requester.info.year}}</p>
             </div>
           </div>
     </div>

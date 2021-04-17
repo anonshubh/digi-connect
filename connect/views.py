@@ -16,7 +16,11 @@ User = get_user_model()
 
 # Index Page Of Entire Application
 def index_view(request):
-    return render(request,'connect/index.html')
+    sectors = SectorField.objects.all()
+    data = {
+        'sectors':sectors
+    }
+    return render(request,'connect/index.html',context=data)
 
 
 # About Page Of Application
@@ -121,7 +125,7 @@ class CreateRequest(LoginRequiredMixin,View):
             is_first_year_req = is_first_year_req
         )
         messages.success(request,"Your Request is Created Sucessfully!")
-        return redirect('connect:index')
+        return redirect('connect:display-request',id=sector_id,type_=0)
 
 
 # Returns the Genere List for Particular Sector

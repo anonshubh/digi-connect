@@ -1,11 +1,26 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<h2 class="text-center mt-2">All Sectors</h2>
+<a href="{% url 'connect:index' %}">Back To Home</a>
+<hr>
+<div class="row">
+    {% for sector in sectors %}
+    <div class="col-lg-4 col-md-6 col-sm-12 mt-2">
+        <div class="card" style="width: 18rem;">
+            <img class="card-img-top" src="{{sector.image}}" style="width: 100%; opacity: 0.8;" alt="Image">
+            <div class="card-img-overlay text-center">
+                <a class="fw-bold" style="text-decoration: none;" href="{% url 'connect:display-request' sector.id 0 %}" >Explore {{sector.name}}</a>
+            </div>
+            <!-- <div class="card-body text-center">
+            </div> -->
+          </div>
+    </div>
+    {% empty %}
+    <p class="lead text-center">No Sectors Available :(</p>
+    {% endfor %}
+</div>
 
-{% for sector in sectors %}
-    <p><a href="{% url 'connect:display-request' sector.id 0 %}">{{sector.name}}</a></p>
-{% empty %}
-    <p class="lead">No Sectors Available :(</p>
-{% endfor %}
+
 
 {% endblock %}

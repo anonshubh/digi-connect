@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<h3>{{sector.name}}</h3>
+<h3 class="text-center">{{sector.name}}</h3>
 
 <div class="row">
     <div class="col-lg-10 col-sm-12">
@@ -20,10 +20,10 @@
 <div>
     <p class="lead">Recent Requests</p>
     {% for req in requests %}
-        <div class="card">
+        <div class="card glass-container my-2">
             <div class="card-body">
-                <h6 class="card-subtitle mb-2 text-muted">Deadline: {{req.deadline | date:'d-m-Y H:i'}}</h6>
-                <p class="card-text lead">{{req.subject}}</p>
+                <h6 class="card-subtitle card-greycolor mb-2">Deadline: {{req.deadline | date:'d-m-Y H:i'}}</h6>
+                <p class="card-text card-blackcolor lead">{{req.subject}}</p>
                 {% if request.user == req.requester %}
                     <button type="button" class="btn btn-danger btn-sm me-2" data-bs-toggle="modal" data-bs-target="#deleteReqModal">Delete</button>
                 {% include 'connect/delete-modal_.html' %}
