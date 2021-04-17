@@ -1,0 +1,1 @@
+web: gunicorn digi_connect_src.wsgi
