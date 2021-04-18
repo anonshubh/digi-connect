@@ -54,7 +54,7 @@ class CustomSignupForm(SignupForm):
 
         age = self.cleaned_data['age']
         gender = self.cleaned_data['gender']
-        phone = self.cleaned_data['phone']
+        phone = str(self.cleaned_data['phone'])
         department_year = self.cleaned_data['department_year']
 
         year = 0

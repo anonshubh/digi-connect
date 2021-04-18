@@ -18,7 +18,7 @@ class UserInfo(models.Model):
     user = models.OneToOneField(User,on_delete=models.CASCADE,related_name='info')
     age = models.PositiveIntegerField()
     gender = models.CharField(max_length=10)
-    phone = models.PositiveIntegerField(unique=True)
+    phone = models.CharField(max_length=10,unique=True)
     department = models.CharField(max_length=56)
     year = models.IntegerField()
     created_at = models.DateTimeField(auto_now=True)

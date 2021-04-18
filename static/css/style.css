@@ -111,3 +111,7 @@ red-link{
 .alert-blur{
     opacity: 0.8;
 }
+
+.dc-font{
+    font-family: 'Lobster Two', cursive;
+}

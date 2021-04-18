@@ -15,6 +15,16 @@
     <!-- Font Awesome -->
     <script src="https://kit.fontawesome.com/a38aedba59.js" crossorigin="anonymous"></script>
 
+    <!-- Fav-Icon  -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{% static 'image/fav/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'image/fav/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'image/fav/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'image/fav/site.webmanifest' %}">
+
+    <!-- Google Font  -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lobster+Two:ital@1&display=swap" rel="stylesheet">
+
     <title>{% block title %}Let's Connect{% endblock %}</title>
     {% block head %} {% endblock %}
   </head>
@@ -22,7 +32,7 @@
   
     <nav class="navbar navbar-expand-lg navbar-light sticky-top">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'connect:index' %}">DC</a>
+        <a class="navbar-brand dc-font" href="{% url 'connect:index' %}">DC</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
