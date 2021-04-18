@@ -19,9 +19,11 @@ body{
 } 
 
 .navbar{
-    background-color: antiquewhite;
-    opacity: 0.6;
+    background-color: lightblue;
+    /* background-color: #036ffc; */
+    opacity: 0.45;
 }
+
 
 .nav-dropmenu{
     background-color: rgb(190, 168, 168);
