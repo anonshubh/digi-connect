@@ -27,6 +27,10 @@ def index_view(request):
 def about_view(request):
     return render(request,'about.html')
 
+# Policy Page Of Application
+def policy_view(request):
+    return render(request,'policy.html')
+
 
 # Returns the List of Available Sectors
 def sector_list(request):
@@ -89,7 +93,7 @@ class CreateRequest(LoginRequiredMixin,View):
 
         form = RequestForm(request.POST)
         if(form.is_valid()):
-            pass 
+            pass     
 
         genre = request.POST.get('genre_list')
         subject = form.cleaned_data['subject']

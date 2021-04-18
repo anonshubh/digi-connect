@@ -114,4 +114,14 @@ red-link{
 
 .dc-font{
     font-family: 'Lobster Two', cursive;
+    font-size: x-large;
+}
+
+.team-s{
+    text-decoration: none; 
+    color: azure;
+}
+
+.team-s:hover{
+    color: red;
 }

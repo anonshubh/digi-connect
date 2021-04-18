@@ -38,7 +38,7 @@
             <div class="card glass-container" >
                 <img src="{{sector.image}}" class="card-img-top" alt="...">
                 <div class="card-body text-center">
-                    <a href="{% url 'connect:display-request' sector.id 0 %}" class="btn btn-warning">Explore {{sector.name}}</a>
+                    <a href="{% url 'connect:display-request' sector.id 0 %}" class="btn btn-primary">Explore {{sector.name}}</a>
                 </div>
             </div>
         </div>
@@ -49,8 +49,8 @@
     <hr>
     <!-- Footer -->
     <div class="text-center">
-        <p>Made with "Code" by <span class="footer-line-1"> Team Synergee</spam></p>
-        <p class="footer-line-2 me-2">Write Us at <em>thesynergee@gmail.com</em> |</p> 
+        <p>Made with "Code" by <span class="footer-line-1"> <a class="team-s" href="{% url 'connect:about' %}">Team Synergee</a> </spam> | <a class="team-s" href="{% url 'connect:policy' %}">Our Policies</a></p>
+        <p style="font-size: large;" class="footer-line-2 lead me-2">Write Us at <em>thesynergee@gmail.com</em> |</p> 
         <a target="_blank" class="linkedin-link mx-2" href="https://twitter.com/TSynergee"><i class="fab fa-twitter fa-2x"></i></a> <a target="_blank" class="instagram-link mx-2" href="https://www.instagram.com/thesynergee/"><i class="fab fa-instagram fa-2x"></i></a> <a target="_blank" class="linkedin-link mx-2" href="https://www.facebook.com/synergee.portal"><i class="fab fa-facebook-square fa-2x"></i></a>
       </div> 
 </div>
