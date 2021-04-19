@@ -19,9 +19,7 @@ body{
 } 
 
 .navbar{
-    background-color: lightblue;
-    /* background-color: #036ffc; */
-    opacity: 0.45;
+    background-color: rgb(173,216,230,0.45);
 }
 
 
@@ -126,4 +124,18 @@ red-link{
 
 .team-s:hover{
     color: red;
+}
+
+
+.dropdown-menu > li > a {
+    background-image: none;
+    color: blue !important;
+}
+
+.alert-block{
+    opacity: 0.8;
+}
+
+.m-0 > li{
+    color: blue !important;
 }

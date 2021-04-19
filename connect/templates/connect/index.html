@@ -21,6 +21,7 @@
         </div>
         <div class="text-center">
             <a class="btn btn-primary" href="#top-sectors">Explore Top Sectors</a>
+            <a class="btn btn-primary mx-1 my-1" href="{% url 'connect:create-request' 1 %}">Create New Request +</a>
         </div>
         <div class="text-center mt-4">
             {% if not request.user.is_authenticated %}
@@ -49,7 +50,7 @@
     <hr>
     <!-- Footer -->
     <div class="text-center">
-        <p>Made with "Code" by <span class="footer-line-1"> <a class="team-s" href="{% url 'connect:about' %}">Team Synergee</a> </spam> | <a class="team-s" href="{% url 'connect:policy' %}">Our Policies</a></p>
+        <p>Made with "Code" by <span class="footer-line-1"> <a class="team-s" target="_blank" href="{% url 'connect:about' %}">Team Synergee</a> </spam> | <a class="team-s" target="_blank" href="{% url 'connect:policy' %}">Our Policies</a></p>
         <p style="font-size: large;" class="footer-line-2 lead me-2">Write Us at <em>thesynergee@gmail.com</em> |</p> 
         <a target="_blank" class="linkedin-link mx-2" href="https://twitter.com/TSynergee"><i class="fab fa-twitter fa-2x"></i></a> <a target="_blank" class="instagram-link mx-2" href="https://www.instagram.com/thesynergee/"><i class="fab fa-instagram fa-2x"></i></a> <a target="_blank" class="linkedin-link mx-2" href="https://www.facebook.com/synergee.portal"><i class="fab fa-facebook-square fa-2x"></i></a>
       </div> 

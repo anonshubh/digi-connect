@@ -91,6 +91,9 @@ class CreateRequest(LoginRequiredMixin,View):
         sector_id = int(request.POST.get('sector-id'))
         sector = get_object_or_404(SectorField,pk=sector_id)
 
+        if(request.user.info.is_restricted):
+            raise PermissionDenied()
+
         form = RequestForm(request.POST)
         if(form.is_valid()):
             pass     
@@ -104,8 +107,7 @@ class CreateRequest(LoginRequiredMixin,View):
         # Custom Form Verification
         
         live = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
-
-        if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
+        if (live.date()==deadline.date()) and (live.time()>deadline.time()) or (live.date()>deadline.date()):
             messages.error(request,'Deadline Must Be Higher than Current Time!')
             return redirect('connect:create-request',id=sector_id)
     
@@ -231,9 +233,9 @@ def add_or_remove_sender_view(request,id):
         if(request.user.info.gender != req_obj.requester.info.gender):
             raise PermissionDenied()
 
-    live = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+    live = datetime.datetime.now(pytz.timezone('UTC'))
 
-    if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
+    if (live.date()==deadline.date()) and (live.time()>deadline.time()) or (live.date()>deadline.date()):
         messages.error(request,'Deadline Exceeded!')
         req_obj.pending = False
         req_obj.save()
@@ -277,9 +279,8 @@ def list_senders_in_request_view(request,id):
         if(request.user.info.gender != req_obj.requester.info.gender):
             raise PermissionDenied()
 
-    live = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
-
-    if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
+    live = datetime.datetime.now(pytz.timezone('UTC'))  
+    if (live.date()==deadline.date()) and (live.time()>deadline.time()) or (live.date()>deadline.date()):
         messages.error(request,'Deadline Exceeded!')
         req_obj.pending = False
         req_obj.save()
@@ -331,9 +332,9 @@ def final_accept_view(request,id,username):
         if(request.user.info.gender != req_obj.requester.info.gender):
             raise PermissionDenied()
     
-    live = datetime.datetime.now(pytz.timezone('Asia/Kolkata'))
+    live = datetime.datetime.now(pytz.timezone('UTC'))
 
-    if not ((live.date()==deadline.date() and live.time()<deadline.time()) or(live.date()<deadline.date())):
+    if (live.date()==deadline.date()) and (live.time()>deadline.time()) or (live.date()>deadline.date()):
         messages.error(request,'Deadline Exceeded!')
         req_obj.pending = False
         req_obj.save()
