@@ -19,7 +19,7 @@ body{
 } 
 
 .navbar{
-    background-color: rgb(173,216,230,0.45);
+    background-color: rgb(173,215,230,0.45);
 }
 
 
@@ -29,6 +29,7 @@ body{
 
 .a-white{
     color: whitesmoke;
+	backgroundColor:'white';
 }
 
 
