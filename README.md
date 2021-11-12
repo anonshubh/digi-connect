@@ -6,7 +6,7 @@ A platform to connect people according to their situations in daily life.
 ---
 *Requirements:- Python 3.8+*<br>
 1) `git clone https://github.com/anonshubh/digi-connect.git`
-(For Contrituber: Use your Forked URL)
+(For Contributor: Use your Forked URL)
 2) `cd digi-connect`
 3) `python -m venv env`
 4) `source env/bin/activate` (Mac/Linux)<br>
